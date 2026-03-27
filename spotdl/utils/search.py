@@ -142,6 +142,7 @@ def get_simple_songs(
         # Remove /intl-xxx/ from Spotify URLs with regex
         request = re.sub(r"\/intl-\w+\/", "/", request)
 
+        print(f"request is: {request}")
         if (
             (  # pylint: disable=too-many-boolean-expressions
                 "watch?v=" in request

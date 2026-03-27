@@ -87,10 +87,10 @@ class Playlist(SongList):
 
         songs = []
         for track_no, track in enumerate(tracks):
-            if not isinstance(track, dict) or track.get("track") is None:
+            if not isinstance(track, dict) or track.get("item") is None:
                 continue
 
-            track_meta = track["track"]
+            track_meta = track["item"]
 
             if track_meta.get("is_local") or track_meta.get("type") != "track":
                 logger.warning(

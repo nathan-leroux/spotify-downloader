@@ -46,14 +46,12 @@ class Song:
     tracks_count: int
     song_id: str
     explicit: bool
-    publisher: str
     url: str
     isrc: Optional[str]
     cover_url: Optional[str]
     copyright_text: Optional[str]
     download_url: Optional[str] = None
     lyrics: Optional[str] = None
-    popularity: Optional[int] = None
     album_id: Optional[str] = None
     list_name: Optional[str] = None
     list_url: Optional[str] = None
@@ -99,6 +97,7 @@ class Song:
         album_id = raw_track_meta["album"]["id"]
         raw_album_meta: Dict[str, Any] = spotify_client.album(album_id)  # type: ignore
 
+
         # create song object
         return cls(
             name=raw_track_meta["name"],
@@ -114,7 +113,7 @@ class Song:
                 if raw_album_meta["copyrights"]
                 else None
             ),
-            genres=raw_album_meta["genres"] + raw_artist_meta["genres"],
+            genres=[""],
             disc_number=raw_track_meta["disc_number"],
             disc_count=int(raw_album_meta["tracks"]["items"][-1]["disc_number"]),
             duration=int(raw_track_meta["duration_ms"] / 1000),
@@ -125,9 +124,7 @@ class Song:
             isrc=raw_track_meta.get("external_ids", {}).get("isrc"),
             song_id=raw_track_meta["id"],
             explicit=raw_track_meta["explicit"],
-            publisher=raw_album_meta["label"],
             url=raw_track_meta["external_urls"]["spotify"],
-            popularity=raw_track_meta["popularity"],
             cover_url=(
                 max(raw_album_meta["images"], key=lambda i: i["width"] * i["height"])[
                     "url"
